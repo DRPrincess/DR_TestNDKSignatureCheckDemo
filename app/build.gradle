@@ -1,0 +1,68 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "23.0.3"
+    defaultConfig {
+        applicationId "dr.dr_testappdemo"
+        minSdkVersion 16
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+
+        //ndk编译生成.so文件
+        ndk {
+            moduleName "DRPrincess"         //生成的so文件名称
+            abiFilters "armeabi", "armeabi-v7a", "x86"  //输出指定三种abi体系结构下的so库。
+        }
+    }
+
+    signingConfigs{
+        myConfig{
+
+            keyAlias 'duanrui'
+            keyPassword 'aaaaaa'
+            storeFile  file('C:/Users/Administrator/Desktop/DR_sign.jks')
+            storePassword 'aaaaaa'
+        }
+
+        myConfig1{
+
+            keyAlias 'ruiduan'
+            keyPassword 'bbbbbb'
+            storeFile  file('C:/Users/Administrator/Desktop/DR_sign_1.jks')
+            storePassword 'bbbbbb'
+        }
+
+    }
+
+
+    buildTypes {
+        debug{
+
+        }
+        release {
+            debuggable true
+            minifyEnabled false
+            signingConfig signingConfigs.myConfig
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        release_sign1 {
+            debuggable true
+            minifyEnabled false
+            signingConfig signingConfigs.myConfig1
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:24.0.0-alpha2'
+    testCompile 'junit:junit:4.12'
+}
